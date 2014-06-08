@@ -23,7 +23,7 @@
 
 ;;; Code:
 
-(defun Shoulda:run-should-at-point ()
+(defun shoulda:run-should-at-point ()
   "Run Shoulda should test at point"
   (interactive)
   (save-excursion
