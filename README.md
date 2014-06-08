@@ -8,18 +8,30 @@ Run ruby shoulda tests from emacs
 
 ## installation
 
+Add `shut-up` to your [Cask](https://github.com/cask/cask) file:
+
+```lisp
+(depends-on "shut-up")
+```
+
+- OR -
+
 Manually download `shoulda.el` and add the following to your init file:
 
-    (add-to-list 'load-path "/path/to/shoulda")
-    (require 'shoulda)
+```lisp
+(add-to-list 'load-path "/path/to/shoulda")
+(require 'shoulda)
+```
 
 ## Keybinding suggestions
 
-    (eval-after-load 'ruby
-                    '(define-key ruby-mode-map C-c t s 'shoulda:run-should-at-point)))
+```lisp
+(eval-after-load 'ruby
+  '(define-key ruby-mode-map C-c t s 'shoulda:run-should-at-point)))
 
-    (eval-after-load 'ruby
-                    '(define-key ruby-mode-map C-c t c 'shoulda:run-context-at-point)))
+(eval-after-load 'ruby
+  '(define-key ruby-mode-map C-c t c 'shoulda:run-context-at-point)))
+```
 
 ## License [GPLv3](http://www.gnu.org/copyleft/gpl.html)
 
