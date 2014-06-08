@@ -2,16 +2,12 @@
 
 Run ruby shoulda tests from emacs
 
-## Dependencies
-
-* [projectile](http://batsov.com/projectile/)
-
 ## installation
 
-Add `shut-up` to your [Cask](https://github.com/cask/cask) file:
+Add `shoulda` to your [Cask](https://github.com/cask/cask) file:
 
 ```lisp
-(depends-on "shut-up")
+(depends-on "shoulda")
 ```
 
 - OR -
