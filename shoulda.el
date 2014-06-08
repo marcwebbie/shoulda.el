@@ -4,7 +4,7 @@
 
 ;; Author: Marcwebbie <marcwebbie@gmail.com>
 ;; Version: 0.1
-;; Keywords: ruby tests
+;; Keywords: ruby tests shoulda
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -21,11 +21,9 @@
 
 ;;; Commentary:
 
-;; Run shoulda tests from emacs
-
 ;;; Code:
 
-(defun shoulda:run-should-at-point ()
+(defun Shoulda:run-should-at-point ()
   "Run Shoulda should test at point"
   (interactive)
   (save-excursion
