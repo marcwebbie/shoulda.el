@@ -23,6 +23,8 @@
 
 ;;; Code:
 
+(require 'project-root)
+
 (defun shoulda:run-should-at-point ()
   "Run Shoulda should test at point"
   (interactive)
@@ -35,7 +37,7 @@
            (context (when (search-backward-regexp (concat "[ \t]*context +" name-regex "[ \t]+do") nil t)
                       (funcall name-match))))
       (when (and should context)
-        (compilation-start (concat "cd " (projectile-project-root) " && bundle exec -- ruby " (buffer-file-name) " -n /'"  should "'/"))))))
+        (compilation-start (concat "cd " (project-root) " && bundle exec -- ruby " (buffer-file-name) " -n /'"  should "'/"))))))
 
 (defun shoulda:run-context-at-point ()
   "Run Shoulda context test at point"
@@ -49,7 +51,7 @@
            (context (when (search-backward-regexp (concat "[ \t]*context +" name-regex "[ \t]+do") nil t)
                       (funcall name-match))))
       (when (and should context)
-        (compilation-start (concat "cd " (projectile-project-root) " && bundle exec -- ruby " (buffer-file-name) " -n /'"  context "'/"))))))
+        (compilation-start (concat "cd " (project-root) " && bundle exec -- ruby " (buffer-file-name) " -n /'"  context "'/"))))))
 
 
 (provide 'shoulda)
