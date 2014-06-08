@@ -4,7 +4,7 @@ Run ruby shoulda tests from emacs
 
 ## Dependencies
 
-    * [projectile](http://batsov.com/projectile/)
+* [projectile](http://batsov.com/projectile/)
 
 ## installation
 
