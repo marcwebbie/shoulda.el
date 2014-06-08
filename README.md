@@ -10,8 +10,8 @@ Run ruby shoulda tests from emacs
 
 Manually download `shoulda.el` and add the following to your init file:
 
-    (add-to-list 'load-path "/path/to/rspec-mode")
-    (require 'rspec-mode)
+    (add-to-list 'load-path "/path/to/shoulda")
+    (require 'shoulda)
 
 ## Keybinding suggestions
 
