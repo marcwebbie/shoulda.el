@@ -24,6 +24,7 @@
 ;;; Code:
 
 (require 'ruby-mode)
+(require 'ruby-compilation)
 
 (defvar *project-roots*
   '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml" ".emacs-project" "Gemfile")
@@ -75,7 +76,7 @@
            (context (when (search-backward-regexp (concat "[ \t]*context +" name-regex "[ \t]+do") nil t)
                       (funcall name-match))))
       (when (and should context)
-        (compilation-start (concat "cd " (project-root) " && bundle exec ruby " (shell-quote-argument (buffer-file-name)) " -n /'"  should "'/"))))))
+        (ruby-compilation-start (concat "cd " (project-root) " && bundle exec ruby " (shell-quote-argument (buffer-file-name)) " -n /'"  should "'/"))))))
 
 ;;;###autoload
 (defun shoulda-run-context-at-point ()
@@ -90,7 +91,7 @@
            (context (when (search-backward-regexp (concat "[ \t]*context +" name-regex "[ \t]+do") nil t)
                       (funcall name-match))))
       (when (and should context)
-        (compilation-start (concat "cd " (project-root) " && bundle exec ruby " (shell-quote-argument (buffer-file-name)) " -n /'"  context "'/"))))))
+        (ruby-compilation-start (concat "cd " (project-root) " && bundle exec ruby " (shell-quote-argument (buffer-file-name)) " -n /'"  context "'/"))))))
 
 
 (provide 'shoulda)
