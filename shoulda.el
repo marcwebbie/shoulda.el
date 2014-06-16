@@ -5,6 +5,7 @@
 ;; Author: Marcwebbie <marcwebbie@gmail.com>
 ;; Version: 0.1
 ;; Keywords: ruby tests shoulda
+;; Package-Requires: ((cl-lib "0.5"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -24,47 +25,30 @@
 ;;; Code:
 
 (require 'ruby-mode)
+(require 'cl-lib)
 
-(defvar *project-roots*
+(defvar shoulda-project-roots
   '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml" ".emacs-project" "Gemfile")
   "The presence of any file/directory in this list indicates a project root.")
-(defvar *project-root* nil
+
+(defvar shoulda--project-root nil
   "Used internally to cache the project root.")
+(make-variable-buffer-local 'shoulda--project-root)
 
-(defun root-match(root names)
-  (member (car names) (directory-files root)))
-
-(defun root-matches(root names)
-  (if (root-match root names)
-      (root-match root names)
-    (if (eq (length (cdr names)) 0)
-'nil
-      (root-matches root (cdr names))
-      )))
-
-(defun project-root ()
-  "Returns the current project root."
-  (when (or
-         (null *project-root*)
-         (not (string-match *project-root* default-directory)))
-    (let ((root (find-project-root)))
-      (if root
-          (setq *project-root* (expand-file-name (concat root "/")))
-        (setq *project-root* nil))))
-  *project-root*)
-
-(defun find-project-root (&optional root)
-  "Determines the current project root by recursively searching for an indicator."
-  (when (null root) (setq root default-directory))
-  (cond
-   ((root-matches root *project-roots*)
-    (expand-file-name root))
-   ((equal (expand-file-name root) "/") nil)
-   (t (find-project-root (concat (file-name-as-directory root) "..")))))
+(defun shoulda--project-root ()
+  "Return the current project root directory."
+  (or shoulda--project-root
+      (setq shoulda--project-root
+            (locate-dominating-file default-directory
+                                    (lambda (dir)
+                                      (cl-intersection
+                                       shoulda-project-roots
+                                       (directory-files dir)
+                                       :test 'string-equal))))))
 
 ;;;###autoload
 (defun shoulda-run-should-at-point ()
-  "Run Shoulda should test at point"
+  "Run Shoulda should test at point."
   (interactive)
   (save-excursion
     (ruby-end-of-block)
@@ -75,11 +59,11 @@
            (context (when (search-backward-regexp (concat "[ \t]*context +" name-regex "[ \t]+do") nil t)
                       (funcall name-match))))
       (when (and should context)
-        (compilation-start (concat "cd " (project-root) " && bundle exec ruby -I'lib:test' " (shell-quote-argument (buffer-file-name)) " -n /'"  should "'/"))))))
+        (compilation-start (concat "cd " (shoulda--project-root) " && bundle exec ruby -I'lib:test' " (shell-quote-argument (buffer-file-name)) " -n /'"  should "'/"))))))
 
 ;;;###autoload
 (defun shoulda-run-context-at-point ()
-  "Run Shoulda context test at point"
+  "Run Shoulda context test at point."
   (interactive)
   (save-excursion
     (ruby-end-of-block)
@@ -90,7 +74,9 @@
            (context (when (search-backward-regexp (concat "[ \t]*context +" name-regex "[ \t]+do") nil t)
                       (funcall name-match))))
       (when (and should context)
-        (compilation-start (concat "cd " (project-root) " && bundle exec ruby -I'lib:test' " (shell-quote-argument (buffer-file-name)) " -n /'"  context "'/"))))))
+        (compilation-start (concat "cd " (shell-quote-argument (shoulda--project-root))
+                                   " && bundle exec ruby -I'lib:test' "
+                                   (shell-quote-argument (buffer-file-name)) " -n /'"  context "'/"))))))
 
 
 (provide 'shoulda)
