@@ -1,6 +1,6 @@
 # shoulda.el
 
-Run ruby shoulda tests from emacs
+Run ruby [shoulda](https://github.com/thoughtbot/shoulda) tests from emacs
 
 ## Dependencies
 
@@ -19,7 +19,7 @@ Add `shoulda` to your [Cask](https://github.com/cask/cask) file:
 Manually download `shoulda.el` and add the following to your init file:
 
 ```lisp
-(add-to-list 'load-path "/path/to/shoulda")
+(add-to-list 'load-path "/path/to/shoulda.el")
 (require 'shoulda)
 ```
 
@@ -27,10 +27,10 @@ Manually download `shoulda.el` and add the following to your init file:
 
 ```lisp
 (eval-after-load 'ruby
-  '(define-key ruby-mode-map C-c t s 'shoulda-run-should-at-point)))
+  '(define-key ruby-mode-map (kbd "C-c t s") 'shoulda-run-should-at-point)))
 
 (eval-after-load 'ruby
-  '(define-key ruby-mode-map C-c t c 'shoulda-run-context-at-point)))
+  '(define-key ruby-mode-map (kdb "C-c t c") 'shoulda-run-context-at-point)))
 ```
 
 ## License [GPLv3](http://www.gnu.org/copyleft/gpl.html)
